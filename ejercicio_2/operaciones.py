@@ -18,9 +18,45 @@ No modifiques productos ni imprimas dentro de la función.
 Para [] devuelve listas y set vacíos, valor_total=0 y hay_agotados=False.
 """
 
-# TODO: importa reduce desde functools.
+"""EJERCICIO 10 — Lógica del reporte"""
+
+from functools import reduce
 
 
 def generar_reporte(productos):
-    # TODO: construye y devuelve el reporte.
-    pass
+    # 1. disponibles: lista de nombres con stock > 0 usando filter y map con lambda
+    disponibles = list(
+        map(
+            lambda p: p["nombre"],
+            filter(lambda p: p["stock"] > 0, productos)
+        )
+    )
+
+    # 2. valor_total: suma de precio * stock usando map y reduce con lambda (inicio en 0)
+    valor_total = reduce(
+        lambda acc, x: acc + x,
+        map(lambda p: p["precio"] * p["stock"], productos),
+        0
+    )
+
+    # 3. hay_agotados: booleano usando any sobre map con lambda
+    hay_agotados = any(map(lambda p: p["stock"] == 0, productos))
+
+    # 4. categorias: set con todas las categorías usando comprensión de sets
+    categorias = {p["categoria"] for p in productos}
+
+    # 5. precios_con_recargo: tuplas con recargo del 10% (round 2) solo para disponibles
+    calcular_recargo = lambda precio: round(precio * 1.1, 2)
+    precios_con_recargo = [
+        (p["nombre"], calcular_recargo(p["precio"]))
+        for p in productos
+        if p["stock"] > 0
+    ]
+
+    return {
+        "disponibles": disponibles,
+        "valor_total": valor_total,
+        "hay_agotados": hay_agotados,
+        "categorias": categorias,
+        "precios_con_recargo": precios_con_recargo
+    }

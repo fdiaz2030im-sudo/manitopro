@@ -24,11 +24,28 @@ Añade otro ejemplo con print y su resultado esperado en un comentario.
 Haz un commit: "Resuelve ejercicio 2".
 """
 
-# TODO: importa PRODUCTOS desde datos.
-# TODO: importa generar_reporte desde operaciones.
+"""EJERCICIO 02 — Módulos e integración"""
 
-# TODO: una vez completadas las importaciones, descomenta estas líneas.
-# print(generar_reporte(PRODUCTOS))
-# print(generar_reporte([]))
+from datos import PRODUCTOS
+from operaciones import generar_reporte
 
-# TODO: añade otro ejemplo con print y su resultado esperado en un comentario.
+if __name__ == "__main__":
+    # Salida esperada del ejercicio
+    print(generar_reporte(PRODUCTOS))
+    print(generar_reporte([]))
+
+    # Ejemplo propio adicional
+    productos_custom = [
+        {"nombre": "galleta", "precio": 12, "stock": 4, "categoria": "snack"},
+        {"nombre": "jugo", "precio": 15, "stock": 0, "categoria": "bebida"}
+    ]
+    print(generar_reporte(productos_custom))
+
+    # Resultado esperado para productos_custom en comentario:
+    # {
+    #     "disponibles": ["galleta"],
+    #     "valor_total": 48,
+    #     "hay_agotados": True,
+    #     "categorias": {"snack", "bebida"},
+    #     "precios_con_recargo": [("galleta", 13.2)]
+    # }
